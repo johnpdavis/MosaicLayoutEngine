@@ -6,6 +6,7 @@
 //
 
 import CoreGraphics
+import Foundation
 
 class MosaicLayoutEngine {
     // Provided on init
@@ -47,7 +48,7 @@ class MosaicLayoutEngine {
         return (pageWidth - gutterTotal) / CGFloat(numberOfColumns)
     }()
     
-    private var pages: [PageState] = []
+    private var pages: [Int: PageState] = [:]
     
     lazy var pageLayoutEngine: PageLayoutEngine = {
         PageLayoutEngine(numberOfColumns: numberOfColumns, pageWidth: pageWidth, pageHeight: pageHeight, pixelSizeOfBlock: pixelSizeOfBlock, interItemSpacing: interItemSpacing, itemsPerPage: itemsPerPage, userIntendedPercent: userIntendedPercent)
@@ -73,30 +74,69 @@ class MosaicLayoutEngine {
         
         // Remove all page tracking
         pages.removeAll(keepingCapacity: true)
-        
-        // Add new page states
-        (0..<numberOfPages).forEach { _ in
-            let page = PageState(numberOfColumns: numberOfColumns)
-            pages.append(page)
-        }
     }
     
-    func pageFor(index: Int) -> PageState? {
-        guard index >= 0 && index < pages.count else { return nil }
-        
+    private func cachedPageFor(index: Int) -> PageState? {
         return pages[index]
     }
     
     func resetPage(index: Int) {
-        guard index >= 0 && index < pages.count else { return }
-        
-        pages[index] = PageState(numberOfColumns: numberOfColumns)
+        pages.removeValue(forKey: index)
     }
     
-    func layoutItems(_ itemSizes: [BlockSize], inPage pageIndex: Int) {
-        guard pageIndex >= 0 && pageIndex < pages.count else { return }
+    func computedPage(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> PageState! {
+        if let page = cachedPageFor(index: pageIndex), !page.itemBlockSlots.isEmpty {
+            return page
+        } else {
+            let page = pageLayoutEngine.layoutPageWithItems(itemSizes)
+            pages[pageIndex] = page
+            return page
+        }
+    }
+    
+    private func heightOfPage(index: Int) -> CGFloat {
+        // find the page's largest column
+        if let page = pages[index] {
+            let largestColumnheight = page.largestColumnHeight()
+            
+            let height = (pixelSizeOfBlock.height * CGFloat(largestColumnheight)) + (interItemSpacing * CGFloat(largestColumnheight - 1))
+            
+            return height
+        } else {
+            return pageHeight
+        }
+    }
+    
+    private func minYOfPage(index: Int) -> CGFloat {
+        // the top of a page is the sum of all page heights above it.
+        let topOfPage = (0..<index).reduce(0.0) { result, pageIndex in
+            result + heightOfPage(index: pageIndex)
+        }
         
+        return topOfPage
+    }
+    
+    func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> [Int: CGRect] {
+        let computedPage = computedPage(for: itemSizes, inPage: pageIndex)
+        let pageMinY = minYOfPage(index: pageIndex)
         
+        var itemFrames: [Int: CGRect] = [:]
+        computedPage?.itemBlockSlots.forEach { index, slot in
+            let blockSizeHeight = pixelSizeOfBlock.height
+            let blockSizeWidth = pixelSizeOfBlock.width
+            
+            let localOffsetX: CGFloat = (interItemSpacing * CGFloat(slot.originColumn + 1)) + (CGFloat(slot.originColumn) * blockSizeWidth)
+            let localOffsetY: CGFloat = (interItemSpacing * CGFloat(slot.originRow + 1)) + (CGFloat(slot.originRow) * blockSizeHeight)
+            
+            let width = blockSizeWidth * CGFloat(slot.blockSize.width) + (interItemSpacing * CGFloat(slot.blockSize.width - 1))
+            let height = (blockSizeHeight * CGFloat(slot.blockSize.height)) + (interItemSpacing * CGFloat(slot.blockSize.height - 1))
+            
+            let frame = CGRect(x: localOffsetX, y: localOffsetY + pageMinY, width: width, height: height)
+            
+            itemFrames[index] = frame
+        }
+        
+        return itemFrames
     }
 }
 
