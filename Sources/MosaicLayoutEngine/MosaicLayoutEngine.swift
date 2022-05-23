@@ -22,24 +22,7 @@ public class MosaicLayoutEngine {
     private lazy var pixelSizeOfBlock: CGSize = {
         actualBlockSize() ?? .zero
     }()
-    
-    private lazy var numberOfRows: Int = {
-        guard numberOfColumns > 0 else { return 1 }
-        guard itemsPerPage > 0 else { return 1 }
-        
-        let approximateNumberOfPageBlocksGivenItems = Double(itemsPerPage) * 2.5
-        // divide by the number of columns, and round up to get the number of rows
-        let numberOfRows = Int(ceil(approximateNumberOfPageBlocksGivenItems / Double(numberOfColumns)))
-        
-        return max(numberOfRows, 1)
-    }()
-    
-    private lazy var rowHeight: CGFloat = {
-        let totalVerticalGutter = interItemSpacing * CGFloat(numberOfRows + 2)
-        let rowHeight = round((pageHeight - totalVerticalGutter) / CGFloat(numberOfRows))
-        return rowHeight
-    }()
-    
+
     private lazy var columnWidth: CGFloat = {
         guard numberOfColumns > 0 else { return 1 }
         
@@ -180,7 +163,7 @@ private extension MosaicLayoutEngine {
 //    }
     
     func actualBlockSize() -> CGSize? {
-        let actualBlockSize = CGSize(width: columnWidth, height: rowHeight)
+        let actualBlockSize = CGSize(width: columnWidth, height: round(columnWidth / 2))
         
         guard actualBlockSize.width != CGFloat.infinity && actualBlockSize.height != CGFloat.infinity else { return nil }
         return actualBlockSize
