@@ -94,7 +94,7 @@ public class MosaicLayoutEngine {
         }
     }
     
-    private func heightOfPage(index: Int) -> CGFloat {
+    public func heightOfPage(index: Int) -> CGFloat {
         // find the page's largest column
         if let page = pages[index] {
             let largestColumnheight = page.largestColumnHeight()
