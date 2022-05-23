@@ -82,7 +82,7 @@ public class MosaicLayoutEngine {
         if let page = pages[index] {
             let largestColumnheight = page.largestColumnHeight()
             
-            let height = (pixelSizeOfBlock.height * CGFloat(largestColumnheight)) + (interItemSpacing * CGFloat(largestColumnheight - 1))
+            let height = (pixelSizeOfBlock.height * CGFloat(largestColumnheight)) + (interItemSpacing * CGFloat(largestColumnheight))
             
             return height
         } else {
