@@ -94,7 +94,7 @@ public class MosaicLayoutEngine {
         }
     }
     
-    public func heightOfPage(index: Int) -> CGFloat {
+    private func heightOfPage(index: Int) -> CGFloat {
         // find the page's largest column
         if let page = pages[index] {
             let largestColumnheight = page.largestColumnHeight()
@@ -114,6 +114,13 @@ public class MosaicLayoutEngine {
         }
         
         return topOfPage
+    }
+    
+    public func pageFrame(index: Int) -> CGRect {
+        return CGRect(x: 0,
+                      y: minYOfPage(index: index),
+                      width: pageWidth,
+                      height: heightOfPage(index: index))
     }
     
     public func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> [Int: CGRect] {
