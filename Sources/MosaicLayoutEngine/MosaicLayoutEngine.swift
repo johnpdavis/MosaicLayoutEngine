@@ -54,7 +54,7 @@ class MosaicLayoutEngine {
         PageLayoutEngine(numberOfColumns: numberOfColumns, pageWidth: pageWidth, pageHeight: pageHeight, pixelSizeOfBlock: pixelSizeOfBlock, interItemSpacing: interItemSpacing, itemsPerPage: itemsPerPage, userIntendedPercent: userIntendedPercent)
     }()
     
-    init(numberOfColumns: Int, numberOfPages: Int, pageWidth: CGFloat, pageHeight: CGFloat, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat) {
+    public init(numberOfColumns: Int, numberOfPages: Int, pageWidth: CGFloat, pageHeight: CGFloat, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat) {
         self.numberOfColumns = numberOfColumns
         self.numberOfPages = numberOfPages
         self.pageWidth = pageWidth
@@ -66,7 +66,7 @@ class MosaicLayoutEngine {
         resetAllPages()
     }
     
-    func resetAllPages() {
+    public func resetAllPages() {
         guard pageWidth != 0.0 else {
             print("<><><><><><><>CRITICAL: Tried to lay out a 0 width collection view. ")
             return
@@ -80,7 +80,7 @@ class MosaicLayoutEngine {
         return pages[index]
     }
     
-    func resetPage(index: Int) {
+    public func resetPage(index: Int) {
         pages.removeValue(forKey: index)
     }
     
@@ -116,7 +116,7 @@ class MosaicLayoutEngine {
         return topOfPage
     }
     
-    func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> [Int: CGRect] {
+    public func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> [Int: CGRect] {
         let computedPage = computedPage(for: itemSizes, inPage: pageIndex)
         let pageMinY = minYOfPage(index: pageIndex)
         
