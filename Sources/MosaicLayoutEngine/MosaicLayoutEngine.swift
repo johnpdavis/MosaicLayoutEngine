@@ -8,7 +8,7 @@
 import CoreGraphics
 import Foundation
 
-class MosaicLayoutEngine {
+public class MosaicLayoutEngine {
     // Provided on init
     private let pageHeight: CGFloat
     private let pageWidth: CGFloat
