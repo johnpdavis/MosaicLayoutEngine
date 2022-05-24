@@ -7,7 +7,7 @@
 
 import Foundation
 
-class PageState: Equatable {
+public class PageState: Equatable {
     let numberOfColumns: Int
     
     //This array maintains the state of the layout as all item frames are calculated.
@@ -40,7 +40,7 @@ class PageState: Equatable {
         columnSizes = newSizes
     }
     
-    static func == (lhs: PageState, rhs: PageState) -> Bool {
+    public static func == (lhs: PageState, rhs: PageState) -> Bool {
         lhs.numberOfColumns == rhs.numberOfColumns &&
         lhs.columnSizes == rhs.columnSizes &&
         lhs.itemBlockSlots == rhs.itemBlockSlots

@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-class PageLayoutEngine {
+public class PageLayoutEngine {
      
     // Provided on init
     let pageWidth: CGFloat
@@ -47,7 +47,7 @@ class PageLayoutEngine {
         self.columnWidth = columnWidth
     }
     
-    func layoutPageWithItems(_ itemSizes: [LayoutSizeProviding]) -> PageState {
+    public func layoutPageWithItems(_ itemSizes: [LayoutSizeProviding]) -> PageState {
         let itemBlockSizes = itemSizes.map { imageBlockSizeEngine.calculateBlockSize(of: $0) }
         
         // We now have the block sizes of everything we want to layout on a page.

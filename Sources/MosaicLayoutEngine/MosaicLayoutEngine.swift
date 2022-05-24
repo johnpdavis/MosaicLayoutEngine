@@ -33,7 +33,7 @@ public class MosaicLayoutEngine {
     
     private var pages: [Int: PageState] = [:]
     
-    lazy var pageLayoutEngine: PageLayoutEngine = {
+    public lazy var pageLayoutEngine: PageLayoutEngine = {
         PageLayoutEngine(numberOfColumns: numberOfColumns, pageWidth: pageWidth, pageHeight: pageHeight, pixelSizeOfBlock: pixelSizeOfBlock, interItemSpacing: interItemSpacing, itemsPerPage: itemsPerPage, userIntendedPercent: userIntendedPercent)
     }()
     
