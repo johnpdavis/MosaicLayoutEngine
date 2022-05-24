@@ -80,8 +80,9 @@ class ImageBlockSizeEngine {
             maxWidth = maxWidthBasedOnViewWidth < maxWidthBasedOnUserIntention ? maxWidthBasedOnViewWidth : maxWidthBasedOnUserIntention
             if widthDominates {
                 widthBlocks += 1
+                maxWidth += 1
             }
-            //
+
             if widthBlocks > maxWidth {
                 widthBlocks = maxWidth
             }
@@ -90,6 +91,11 @@ class ImageBlockSizeEngine {
         //prevent 0 returned width.
         if widthBlocks < 1 {
             widthBlocks = 1
+        }
+        
+        // prevent exceding the available size
+        if widthBlocks > numberOfColumns {
+            widthBlocks = numberOfColumns
         }
         
         return widthBlocks
