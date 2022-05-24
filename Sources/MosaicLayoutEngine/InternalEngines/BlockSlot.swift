@@ -7,10 +7,10 @@
 
 import Foundation
 
-class BlockSlot {
-    var originColumn: Int
-    var originRow: Int
-    var blockSize: BlockSize
+public class BlockSlot {
+    public private(set) var originColumn: Int
+    public private(set) var originRow: Int
+    public private(set) var blockSize: BlockSize
     
     init(originColumn: Int, originRow: Int, blockSize: BlockSize) {
         self.originColumn = originColumn
@@ -41,19 +41,19 @@ class BlockSlot {
 }
 
 extension BlockSlot: CustomStringConvertible {
-    var description: String {
+    public var description: String {
         "ColumOrigin: X\(originColumn),Y\(originRow) -0- BlockSize: W\(blockSize.width)xH\(blockSize.height)"
     }
 }
 
 extension BlockSlot: Hashable {
-    func hash(into hasher: inout Hasher) {
+    public func hash(into hasher: inout Hasher) {
         hasher.combine(originColumn)
         hasher.combine(originRow)
         hasher.combine(blockSize)
     }
     
-    static func == (lhs: BlockSlot, rhs: BlockSlot) -> Bool {
+    public static func == (lhs: BlockSlot, rhs: BlockSlot) -> Bool {
         return lhs.originColumn == rhs.originColumn &&
             lhs.originRow == rhs.originRow &&
             lhs.blockSize == rhs.blockSize

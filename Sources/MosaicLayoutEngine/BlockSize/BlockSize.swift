@@ -7,13 +7,13 @@
 
 import Foundation
 
-class BlockSize: CustomDebugStringConvertible, Hashable {
+public class BlockSize: CustomDebugStringConvertible {
     
     // MARK: -Properties
     var width: Int
     var height: Int
     
-    var debugDescription: String {
+    public var debugDescription: String {
         return "BlockSize: \(width)x\(height)"
     }
     
@@ -25,16 +25,6 @@ class BlockSize: CustomDebugStringConvertible, Hashable {
     
     static var zero: BlockSize {
         BlockSize(width: 0, height: 0)
-    }
-    
-    // MARK: - Hashable
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(width)
-        hasher.combine(height)
-    }
-    
-    public static func == (lhs: BlockSize, rhs: BlockSize) -> Bool {
-        return lhs.width == rhs.width && lhs.height == rhs.height
     }
 }
 
@@ -52,5 +42,17 @@ extension BlockSize {
         if self.height > 1 {
             self.height -= 1
         }
+    }
+}
+
+// MARK: - Hashable
+extension BlockSize: Hashable {
+    public static func == (lhs: BlockSize, rhs: BlockSize) -> Bool {
+        return lhs.width == rhs.width && lhs.height == rhs.height
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(width)
+        hasher.combine(height)
     }
 }
