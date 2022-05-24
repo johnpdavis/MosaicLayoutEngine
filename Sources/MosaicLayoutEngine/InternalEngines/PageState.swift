@@ -11,9 +11,9 @@ public class PageState: Equatable {
     let numberOfColumns: Int
     
     //This array maintains the state of the layout as all item frames are calculated.
-    private(set) var columnSizes: [BlockSize] = []
+    public private(set) var columnSizes: [BlockSize] = []
     
-    private(set) var itemBlockSlots: [Int: BlockSlot] = [:]
+    public private(set) var itemBlockSlots: [Int: BlockSlot] = [:]
     
     init(numberOfColumns: Int) {
         self.numberOfColumns = numberOfColumns
