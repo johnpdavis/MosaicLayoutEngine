@@ -7,15 +7,11 @@
 
 import Foundation
 
-public class BlockSize: CustomDebugStringConvertible {
+public class BlockSize {
     
     // MARK: -Properties
-    var width: Int
-    var height: Int
-    
-    public var debugDescription: String {
-        return "BlockSize: \(width)x\(height)"
-    }
+    public internal(set) var width: Int
+    public internal(set) var height: Int
     
     //MARK: -  Initialization
     init(width: Int, height: Int) {
@@ -25,6 +21,12 @@ public class BlockSize: CustomDebugStringConvertible {
     
     static var zero: BlockSize {
         BlockSize(width: 0, height: 0)
+    }
+}
+
+extension BlockSize: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        return "BlockSize: \(width)x\(height)"
     }
 }
 
