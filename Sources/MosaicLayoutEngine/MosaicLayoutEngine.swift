@@ -111,7 +111,7 @@ public class MosaicLayoutEngine {
         let pageMinY = minYOfPage(index: pageIndex)
         
         var itemFrames: [Int: CGRect] = [:]
-        computedPage?.itemBlockSlots.forEach { index, slot in
+        computedPage.itemBlockSlots.forEach { index, slot in
             let blockSizeHeight = pixelSizeOfBlock.height
             let blockSizeWidth = pixelSizeOfBlock.width
             
