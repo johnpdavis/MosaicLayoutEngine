@@ -79,7 +79,6 @@ class ImageBlockSizeEngine {
             //take the smaller.
             maxWidth = maxWidthBasedOnViewWidth < maxWidthBasedOnUserIntention ? maxWidthBasedOnViewWidth : maxWidthBasedOnUserIntention
             if widthDominates {
-                widthBlocks += 1
                 maxWidth += 1
             }
 

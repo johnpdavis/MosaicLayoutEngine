@@ -67,7 +67,7 @@ public class MosaicLayoutEngine {
         pages.removeValue(forKey: index)
     }
     
-    func computedPage(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> PageState! {
+    func computedPage(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> PageState {
         if let page = cachedPageFor(index: pageIndex), !page.itemBlockSlots.isEmpty {
             return page
         } else {
