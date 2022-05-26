@@ -33,11 +33,13 @@ public class MosaicLayoutEngine {
     
     private var pages: [Int: PageState] = [:]
     
+    private let pageBottomEdgeBehavior: PageLayoutEngine.BottomEdgeBehavior
+    
     public lazy var pageLayoutEngine: PageLayoutEngine = {
-        PageLayoutEngine(numberOfColumns: numberOfColumns, pageWidth: pageWidth, pageHeight: pageHeight, pixelSizeOfBlock: pixelSizeOfBlock, interItemSpacing: interItemSpacing, itemsPerPage: itemsPerPage, userIntendedPercent: userIntendedPercent)
+        PageLayoutEngine(numberOfColumns: numberOfColumns, pageWidth: pageWidth, pixelSizeOfBlock: pixelSizeOfBlock, interItemSpacing: interItemSpacing, itemsPerPage: itemsPerPage, userIntendedPercent: userIntendedPercent, bottomEdgeBehavior: pageBottomEdgeBehavior)
     }()
     
-    public init(numberOfColumns: Int, numberOfPages: Int, pageWidth: CGFloat, pageHeight: CGFloat, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat) {
+    public init(numberOfColumns: Int, numberOfPages: Int, pageWidth: CGFloat, pageHeight: CGFloat, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat, pageBottomEdgeBehavior: PageLayoutEngine.BottomEdgeBehavior) {
         self.numberOfColumns = numberOfColumns
         self.numberOfPages = numberOfPages
         self.pageWidth = pageWidth
@@ -45,6 +47,7 @@ public class MosaicLayoutEngine {
         self.interItemSpacing = interItemSpacing
         self.userIntendedPercent = percent
         self.itemsPerPage = itemsPerPage
+        self.pageBottomEdgeBehavior = pageBottomEdgeBehavior
         
         resetAllPages()
     }

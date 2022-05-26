@@ -47,7 +47,7 @@ class ImageBlockSizeEngineTests: XCTestCase {
                                       pixelSizeOfBlock: CGSize(width: 10, height: 30),
                                       userIntendedPercent: 1.0)
         
-        let mockSizeProviding = MockSizeProviding(width: 40, height: 10)
+        let mockSizeProviding = MockSizeProviding(width: 50, height: 10)
         
         let calculatedSize = engine.calculateBlockSize(of: mockSizeProviding)
         
@@ -147,6 +147,6 @@ extension ImageBlockSizeEngineTests {
         
         let sizeProviding = MockSizeProviding(width: 500, height: 100)
         let width = engine.calculateBlockWidth(of: sizeProviding)
-        XCTAssertEqual(width, 6) // capped by maxWidth
+        XCTAssertEqual(width, 5) // capped by maxWidth
     }
 }

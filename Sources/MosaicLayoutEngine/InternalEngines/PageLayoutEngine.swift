@@ -8,10 +8,15 @@
 import CoreGraphics
 
 public class PageLayoutEngine {
+    
+    public enum BottomEdgeBehavior {
+        case flushIfNotFull
+        case flush
+        case notFlush
+    }
      
     // Provided on init
     let pageWidth: CGFloat
-    let pageHeight: CGFloat
     let numberOfColumns: Int
     let interItemSpacing: CGFloat
     let userIntendedPercent: CGFloat
@@ -20,6 +25,8 @@ public class PageLayoutEngine {
     let pixelSizeOfBlock: CGSize
     
     let columnWidth: CGFloat
+    
+    let bottomEdgeBehavior: BottomEdgeBehavior
     
     var staircaseThreshold: Int {
         return 3
@@ -32,14 +39,14 @@ public class PageLayoutEngine {
                              userIntendedPercent: userIntendedPercent)
     }()
     
-    init(numberOfColumns: Int, pageWidth: CGFloat, pageHeight: CGFloat, pixelSizeOfBlock: CGSize, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat) {
+    init(numberOfColumns: Int, pageWidth: CGFloat, pixelSizeOfBlock: CGSize, interItemSpacing: CGFloat, itemsPerPage: Int, userIntendedPercent percent: CGFloat, bottomEdgeBehavior: BottomEdgeBehavior) {
         self.numberOfColumns = numberOfColumns
         self.pageWidth = pageWidth
-        self.pageHeight = pageHeight
         self.pixelSizeOfBlock = pixelSizeOfBlock
         self.interItemSpacing = interItemSpacing
         self.itemsPerPage = itemsPerPage
         self.userIntendedPercent = percent
+        self.bottomEdgeBehavior = bottomEdgeBehavior
         
         // Computed Properties
         let gutterTotal = CGFloat(numberOfColumns + 1) * interItemSpacing
@@ -74,10 +81,12 @@ public class PageLayoutEngine {
         }
         
         // We've laid each item into it's place to form the mosaic, but the page, if full, NEEDS to have a flush bottom.
-        if itemSizes.count == itemsPerPage {
+        if bottomEdgeBehavior == .flushIfNotFull && itemSizes.count != itemsPerPage {
+            makeBottomFlush(pageState)
+        } else if bottomEdgeBehavior == .flush {
             makeBottomFlush(pageState)
         }
-        
+
         return pageState
     }
     
