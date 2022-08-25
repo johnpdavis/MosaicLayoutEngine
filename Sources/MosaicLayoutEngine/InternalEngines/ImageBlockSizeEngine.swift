@@ -48,6 +48,12 @@ class ImageBlockSizeEngine {
     }
     
     func calculateBlockWidth(of sizeProviding: LayoutSizeProviding) -> Int {
+        
+        // Divide by zero prevention
+        guard sizeProviding.width > 0 && sizeProviding.height > 0 else {
+            return 1
+        }
+        
         //what's the width to height ratio.
         let whRatio = sizeProviding.width / sizeProviding.height
         let widthDominates = whRatio >= 1.25 ? true : false
