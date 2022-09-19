@@ -31,27 +31,12 @@ public class PageState: Equatable {
             }
         }
         
+        // Updated cached column states
         for index in slot.originColumn..<slot.maxX {
             if Int(columnSizes[index].height) < slot.maxY {
                 columnSizes[index] = BlockSize(width: 1, height: slot.maxY)
             }
         }
-        
-//        recomputeColumnSizes()
-    }
-    
-    func recomputeColumnSizes() {
-        var newSizes: [BlockSize] = Array(repeating: .zero, count: numberOfColumns)
-        
-        itemBlockSlots.values.forEach { slot in
-            for index in slot.originColumn..<slot.maxX {
-                if Int(newSizes[index].height) < slot.maxY {
-                    newSizes[index] = BlockSize(width: 1, height: slot.maxY)
-                }
-            }
-        }
-        
-        columnSizes = newSizes
     }
     
     public static func == (lhs: PageState, rhs: PageState) -> Bool {
