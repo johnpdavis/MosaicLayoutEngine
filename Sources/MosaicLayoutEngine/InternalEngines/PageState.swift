@@ -39,6 +39,21 @@ public class PageState: Equatable {
         }
     }
     
+    func recomputeColumnSizes() {
+        assert(itemBlockSlots.values.count < 50, "Page size is too large for flushed bottom edges. Computation will cause lag")
+        var newSizes: [BlockSize] = Array(repeating: .zero, count: numberOfColumns)
+        
+        itemBlockSlots.values.forEach { slot in
+            for index in slot.originColumn..<slot.maxX {
+                if Int(newSizes[index].height) < slot.maxY {
+                    newSizes[index] = BlockSize(width: 1, height: slot.maxY)
+                }
+            }
+        }
+        
+        columnSizes = newSizes
+    }
+    
     public static func == (lhs: PageState, rhs: PageState) -> Bool {
         lhs.numberOfColumns == rhs.numberOfColumns &&
         lhs.columnSizes == rhs.columnSizes &&
