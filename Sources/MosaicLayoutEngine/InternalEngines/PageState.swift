@@ -23,7 +23,21 @@ public class PageState: Equatable {
     
     func setSlot(_ slot: BlockSlot, for index: Int) {
         itemBlockSlots[index] = slot
-        recomputeColumnSizes()
+        
+        if columnSizes.count < slot.maxX {
+            let neededColumns = slot.maxX - columnSizes.count
+            (0..<neededColumns).forEach { _ in
+                columnSizes.append(.zero)
+            }
+        }
+        
+        for index in slot.originColumn..<slot.maxX {
+            if Int(columnSizes[index].height) < slot.maxY {
+                columnSizes[index] = BlockSize(width: 1, height: slot.maxY)
+            }
+        }
+        
+//        recomputeColumnSizes()
     }
     
     func recomputeColumnSizes() {
