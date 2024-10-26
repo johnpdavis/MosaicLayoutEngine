@@ -26,7 +26,7 @@ public class MosaicLayoutEngine {
     private lazy var columnWidth: CGFloat = {
         guard numberOfColumns > 0 else { return 1 }
         
-        let gutterTotal = CGFloat(numberOfColumns + 2) * interItemSpacing
+        let gutterTotal = CGFloat(numberOfColumns + 1) * interItemSpacing
         
         return (pageWidth - gutterTotal) / CGFloat(numberOfColumns)
     }()
