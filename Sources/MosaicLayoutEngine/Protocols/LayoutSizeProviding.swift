@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-public protocol LayoutSizeProviding {
+public protocol LayoutSizeProviding: Sendable {
     var sizeForLayout: CGSize { get }
 }
 
