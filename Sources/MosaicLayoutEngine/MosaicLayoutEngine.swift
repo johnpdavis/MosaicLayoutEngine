@@ -118,7 +118,11 @@ public class MosaicLayoutEngine {
     }
     
     /// Calculates frame for each item considering additional area insets on both iOS and macOS.
-    public func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int, additionalContentInsets: PlatformEdgeInsets = .zero) -> [Int: CGRect] {
+    public func layoutSizes(
+        for itemSizes: [LayoutSizeProviding],
+        inPage pageIndex: Int,
+        additionalContentInsets: PlatformEdgeInsets = PlatformEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    ) -> [Int: CGRect] {
         let computedPage = computedPage(for: itemSizes, inPage: pageIndex)
         let pageMinY = minYOfPage(index: pageIndex)
         
