@@ -8,6 +8,14 @@
 import CoreGraphics
 import Foundation
 
+#if canImport(UIKit)
+import UIKit
+public typealias PlatformEdgeInsets = UIEdgeInsets
+#elseif canImport(AppKit)
+import AppKit
+public typealias PlatformEdgeInsets = NSEdgeInsets
+#endif
+
 public class MosaicLayoutEngine {
     // Provided on init
     private let pageHeight: CGFloat
@@ -109,7 +117,8 @@ public class MosaicLayoutEngine {
                       height: heightOfPage(index: index))
     }
     
-    public func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int) -> [Int: CGRect] {
+    /// Calculates frame for each item considering additional area insets on both iOS and macOS.
+    public func layoutSizes(for itemSizes: [LayoutSizeProviding], inPage pageIndex: Int, additionalContentInsets: PlatformEdgeInsets = .zero) -> [Int: CGRect] {
         let computedPage = computedPage(for: itemSizes, inPage: pageIndex)
         let pageMinY = minYOfPage(index: pageIndex)
         
@@ -118,8 +127,8 @@ public class MosaicLayoutEngine {
             let blockSizeHeight = pixelSizeOfBlock.height
             let blockSizeWidth = pixelSizeOfBlock.width
             
-            let localOffsetX: CGFloat = (interItemSpacing * CGFloat(slot.originColumn + 1)) + (CGFloat(slot.originColumn) * blockSizeWidth)
-            let localOffsetY: CGFloat = (interItemSpacing * CGFloat(slot.originRow + 1)) + (CGFloat(slot.originRow) * blockSizeHeight)
+            let localOffsetX: CGFloat = additionalContentInsets.left + (interItemSpacing * CGFloat(slot.originColumn + 1)) + (CGFloat(slot.originColumn) * blockSizeWidth)
+            let localOffsetY: CGFloat = additionalContentInsets.top + (interItemSpacing * CGFloat(slot.originRow + 1)) + (CGFloat(slot.originRow) * blockSizeHeight)
             
             let width = blockSizeWidth * CGFloat(slot.blockSize.width) + (interItemSpacing * CGFloat(slot.blockSize.width - 1))
             let height = (blockSizeHeight * CGFloat(slot.blockSize.height)) + (interItemSpacing * CGFloat(slot.blockSize.height - 1))
