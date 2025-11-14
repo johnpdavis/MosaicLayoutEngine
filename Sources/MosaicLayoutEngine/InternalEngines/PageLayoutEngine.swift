@@ -130,7 +130,7 @@ public class PageLayoutEngine {
     }
     
     func placeBlockSlotForItem(item: ImageBlockSize, index: Int, pageState: PageState) -> Bool {
-        var possibleColumnSets: [Int: ColumnSet] = [:]
+        var possibleColumnSets: [Int: ColumnSet] = Dictionary(minimumCapacity: numberOfColumns)
         var currentColumnHeight = pageState.heightForColumn(0)
         var currentColumnSet = pageState.columnSetForStartingColumn(0, dictionary: &possibleColumnSets)
         
