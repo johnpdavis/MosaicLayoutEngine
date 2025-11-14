@@ -163,8 +163,8 @@ public class PageLayoutEngine {
         
         guard !possibleColumnSets.isEmpty else { return false }
         
-        var bestColumnSet = ColumnSet()
-        bestColumnSet = possibleColumnSets.values.reduce(ColumnSet.worstColumnSet) { left, right in
+        var bestColumnSet = ColumnSet(minimumCapacity: numberOfColumns)
+        bestColumnSet = possibleColumnSets.values.reduce(ColumnSet.worstColumnSet(minimumCapacity: numberOfColumns)) { left, right in
             if right.height < left.height {
                 return right
             } else if right.height == left.height {

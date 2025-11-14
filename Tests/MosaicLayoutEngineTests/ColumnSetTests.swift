@@ -11,7 +11,7 @@ import XCTest
 class ColumnSetTests: XCTestCase {
     
     func testAddColumn() throws {
-        let set = ColumnSet()
+        let set = ColumnSet(minimumCapacity: 4)
         
         set.addColumn(1)
         XCTAssertEqual(1, set.columns.count)
@@ -26,7 +26,7 @@ class ColumnSetTests: XCTestCase {
     }
     
     func testAddColumn_settingHeight() throws {
-        let set = ColumnSet()
+        let set = ColumnSet(minimumCapacity: 4)
         
         set.addColumn(0)
         XCTAssertEqual(0, set.height)
