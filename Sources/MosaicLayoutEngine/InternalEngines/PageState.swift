@@ -126,7 +126,7 @@ extension PageState {
         
         //NOW! Find the largest set with the shortest height
         
-        var bestColumnSet: ColumnSet = ColumnSet.worstColumnSet
+        var bestColumnSet: ColumnSet = ColumnSet.worstColumnSet(minimumCapacity: numberOfColumns)
         for set in columnDict.values {
             if set.height < bestColumnSet.height {
                 bestColumnSet = set
@@ -146,7 +146,7 @@ extension PageState {
         if let presentSet = dictionary[startingColumn] {
             columnSet = presentSet
         } else {
-            columnSet = ColumnSet()
+            columnSet = ColumnSet(minimumCapacity: numberOfColumns)
             dictionary[startingColumn] = columnSet
         }
         

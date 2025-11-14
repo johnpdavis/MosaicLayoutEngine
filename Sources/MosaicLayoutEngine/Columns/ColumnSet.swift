@@ -16,14 +16,14 @@ class ColumnSet {
     private(set) var columnStartIndex: Int
     
     // MARK: - Initialization
-    init() {
-        self.columns = Set<Int>()
+    init(minimumCapacity: Int) {
+        self.columns = Set<Int>(minimumCapacity: minimumCapacity)
         self.height = 0
         self.columnStartIndex = Int.max
     }
     
-    static var worstColumnSet: ColumnSet {
-        let worstSet = ColumnSet()
+    static func worstColumnSet(minimumCapacity: Int) -> ColumnSet {
+        let worstSet = ColumnSet(minimumCapacity: minimumCapacity)
         worstSet.height = Int.max
         worstSet.columnStartIndex = Int.max
         
